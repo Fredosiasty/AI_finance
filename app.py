@@ -26,5 +26,9 @@ def makersuite():
 def predcition():
     return(render_template("predcition.html"))
 
+@app.route("/joke",methods=["GET","POST"])
+def predcition():
+    return(render_template("joke.html"))
+
 if __name__ == "__main__":
     app.run()
