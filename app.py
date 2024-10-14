@@ -1,10 +1,11 @@
 from flask import Flask,render_template,request
-import google.generativeai as palm
+import google.generativeai as genai
 import os
+from textblob import TextBlob
 
 api = os.getenv("MAKERSUITE_API_TOKEN") 
-palm.configure(api_key=api)
-model = {"model": "models/chat-bison-001"}
+genai.configure(api_key=api)
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 app = Flask(__name__)
 
@@ -19,16 +20,18 @@ def financial_QA():
 @app.route("/makersuite",methods=["GET","POST"])
 def makersuite():
     q = request.form.get("q")
-    r = palm.chat(prompt=q, **model)
-    return(render_template("makersuite.html",r=r.last))
+    r = model.generate_content(q)
+    return(render_template("makersuite.html",r=r.text))
 
-@app.route("/predcition",methods=["GET","POST"])
-def predcition():
-    return(render_template("predcition.html"))
+@app.route("/SA",methods=["GET","POST"])
+def SA():
+    return(render_template("SA.html"))
 
-@app.route("/joke",methods=["GET","POST"])
-def joke():
-    return(render_template("joke.html"))
+@app.route("/SAR",methods=["GET","POST"])
+def SAR():
+    q = request.form.get("q")
+    r = TextBlob(q).sentiment
+    return(render_template("SAR.html",r=r))
 
 if __name__ == "__main__":
     app.run()
