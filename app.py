@@ -34,8 +34,7 @@ def SAR():
     return(render_template("SAR.html",r=r))
 
 @app.route("/Transfer Money",methods=["GET","POST"])
-def TransferMoney():
-    q = request.form.get("q")
+def TM():
     return(render_template("Transfer Money.html",r=r))
 
 if __name__ == "__main__":
