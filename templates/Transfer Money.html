@@ -1,18 +1,39 @@
-<head>
-    <title>tranfer Money</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
-</head>
+<h2>Transfoer Money</h2>
+<input type="text" id="payer" placeholder="Enter payer address">
+<input type="text" id="payee" placeholder="Enter payee address">
+<input type="number" id="amount" placeholder="Enter amount to transfer">
 
-<body>
-    <div class="container">
-        <h2>Text Sentiment Analysis : </h2>
-        <form action="/SAR" method="post">
-            <input type="text" name="q">
-            <input type="submit" value="Enter">
-        </form>
-        <form action="/" method="post">
-            <input type="submit" value="Main">
-        </form>
-</div>
-</body>
+<button class="btn" onclick="transfer()">Transfer</button>
+<button class="btn" onclick="transaction()">Transaction</button>
+
+<p id=“view_payer"></p>
+<p id=“view_payee"></p>
+<p id=“view_amount"></p>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+<script>
+    const contractAddress = "";
+    const contractABI =     
+    const web3 = new Web3(Web3.givenProvider);
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    async function transfer() {
+        const account = await web3.eth.requestAccounts();
+        const payer = document.getElementById('payer').value;
+        const payee = document.getElementById('payee').value;
+        const amount = document.getElementById('amount').value;
+        console.log(payer,payee,amount);
+        
+        console.log("accounts[0] " + accounts[0]);
+        await contract.methods.weixin(payer, payee,amount).send({ from: accounts[0]});
+    }
+
+    async function transaction() {
+        const result = await contract.methods.check_transaction().call();
+
+        document.getElementById('view_payer').innerText = "Payer: " + result[0];
+        document.getElementById('view_payee').innerText = "Payee: " + result[1];
+        document.getElementById('view_amount').innerText = "Amount: " + result[2];
+    }
+</script>
+
