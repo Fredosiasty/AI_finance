@@ -79,7 +79,7 @@
                         console.log(payer,payee,amount);
                         
                         console.log("accounts[0] " + accounts[0]);
-                        await contract.methods.weixin(payer, payee,amount).send({ from: accounts[0]});
+                        await contract.methods.transfer(payer, payee,amount).send({ from: accounts[0]});
                     }
                 
                     async function transaction() {
